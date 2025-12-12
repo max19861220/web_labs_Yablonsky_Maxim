@@ -1,0 +1,91 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #e3e3e3;
+}
+
+/* ---------------- HEADER ---------------- */
+
+.header {
+    background: #004d40;
+    padding: 15px;
+}
+
+.menu {
+    display: flex;
+    gap: 20px;
+}
+
+.menu a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+/* ---------------- MAIN CONTAINER ---------------- */
+
+.container {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    gap: 20px;
+}
+
+.text-block h1 {
+    color: #ffffff;
+    background: #00695c;
+    padding: 20px;
+    border-radius: 5px;
+}
+
+.info {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    background: #004d40;
+    padding: 20px;
+    color: white;
+    border-radius: 5px;
+}
+
+.image-block {
+    display: flex;
+    justify-content: center;
+}
+
+.image-block img {
+    width: 200px;
+    border-radius: 50%;
+}
+
+/* ------------------- MEDIA RULES ------------------- */
+
+/* --- Від 600px до 960px --- */
+@media (min-width: 600px) {
+    .container {
+        flex-direction: row;
+    }
+    .text-block {
+        flex: 2;
+    }
+    .image-block {
+        flex: 1;
+        align-items: center;
+    }
+}
+
+/* --- Понад 960px --- */
+@media (min-width: 960px) {
+    body {
+        background: #dfeeea;
+    }
+    .container {
+        flex-direction: row;
+        justify-content: center;
+        max-width: 1100px;
+        margin: auto;
+    }
+    .text-block h1 {
+        font-size: 32px;
+    }
+}
