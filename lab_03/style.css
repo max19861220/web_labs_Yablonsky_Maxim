@@ -1,0 +1,22 @@
+.table {
+    border-collapse: collapse; /* забрати проміжки */
+    width: 500px;
+}
+
+.table td,
+.table th {
+    border: 1px solid #6395ff;
+    padding: 5px 10px;
+}
+
+/* фон заголовка */
+.table thead {
+    background-color: #dae1f8;
+}
+
+/* фон футера */
+.table tfoot {
+    background-color: #5776b1;
+    color: #fff;
+    text-align: right;
+}
