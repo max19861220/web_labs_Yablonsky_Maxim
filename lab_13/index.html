@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Лабораторна №13 (задовільно)</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; background: #f4f4f4; }
+        .block { background: white; padding: 15px; margin-bottom: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        .block h2 { margin-top: 0; color: #2c3e50; }
+        .output { background: #ecf0f1; padding: 10px; border-radius: 5px; white-space: pre-wrap; }
+        hr { border: 1px dashed #ccc; }
+    </style>
+</head>
+<body>
+
+    <h1>Лабораторна робота №13 (оцінка "Задовільно")</h1>
+    <p>Результати виводяться нижче. Введення даних через <b>prompt()</b>.</p>
+    <hr>
+
+    <div id="results"></div>
+
+    <script>
+        // Функція для виведення тексту на сторінку (замість console.log)
+        function print(text) {
+            const container = document.getElementById('results');
+            const p = document.createElement('p');
+            p.textContent = text;
+            container.appendChild(p);
+        }
+
+        function printTitle(title) {
+            const container = document.getElementById('results');
+            const h2 = document.createElement('h2');
+            h2.textContent = title;
+            container.appendChild(h2);
+        }
+
+        // ============================================================
+        // ЗАВДАННЯ 1
+        // ============================================================
+        printTitle('--- Завдання 1 ---');
+
+        let x = 1;
+        let y = 2;
+
+        let res1 = '' + x + y;
+        print('res1 = ' + res1 + ' (тип: ' + typeof res1 + ')');   // "12"
+
+        let res2 = (x < y) + '' + y;
+        print('res2 = ' + res2 + ' (тип: ' + typeof res2 + ')');   // "true2"
+
+        let res3 = x < y;
+        print('res3 = ' + res3 + ' (тип: ' + typeof res3 + ')');   // true
+
+        let res4 = x / 'a';
+        print('res4 = ' + res4 + ' (тип: ' + typeof res4 + ')');   // NaN
+
+        // ============================================================
+        // ЗАВДАННЯ 2
+        // ============================================================
+        printTitle('--- Завдання 2 ---');
+
+        let num = prompt('Введіть ціле додатне число:');
+        num = Number(num);
+
+        if (!isNaN(num) && Number.isInteger(num) && num > 0) {
+            let isEvenPositive = (num % 2 === 0 && num > 0);
+            let isMultipleOf7 = (num % 7 === 0);
+            print('Число ' + num + ' є парним додатним? ' + isEvenPositive);
+            print('Число ' + num + ' кратне 7? ' + isMultipleOf7);
+        } else {
+            print('Помилка: введено некоректне число (має бути ціле додатне)');
+        }
+
+        // ============================================================
+        // ЗАВДАННЯ 3
+        // ============================================================
+        printTitle('--- Завдання 3 ---');
+
+        let age = prompt('Скільки вам років?');
+        age = Number(age);
+
+        if (!isNaN(age) && age >= 0) {
+            if (age >= 18) {
+                print('Ви досягли повнолітнього віку');
+            } else {
+                print('Ви ще надто молоді');
+            }
+        } else {
+            print('Помилка: введіть коректний вік (число)');
+        }
+
+        printTitle('--- Кінець програми ---');
+    </script>
+
+</body>
+</html>
