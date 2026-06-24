@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Lab 23</title>
+    <style>
+        .product-card { border:1px solid #ccc; padding:10px; margin:10px 0; }
+        .filter-form { margin:20px 0; }
+        .filter-form label { margin-right:10px; }
+        #startBtn { padding:10px 20px; font-size:18px; }
+    </style>
+</head>
+<body>
+    <h1>Каталог продуктів</h1>
+
+    <!-- Кнопка start (спочатку прихована) -->
+    <button id="startBtn" style="display:none;">▶ start</button>
+
+    <!-- Форма фільтрації (показується тільки після завантаження) -->
+    <div class="filter-form" id="filterForm" style="display:none;">
+        <label>Категорія:
+            <select id="categoryFilter">
+                <option value="">Всі</option>
+                <option value="smartphones">Смартфони</option>
+                <option value="laptops">Ноутбуки</option>
+                <option value="fragrances">Аромати</option>
+            </select>
+        </label>
+        <label>Пошук:
+            <input type="text" id="searchInput" placeholder="Пошук...">
+        </label>
+        <label>Сортування:
+            <select id="sortSelect">
+                <option value="price_asc">Ціна (зростання)</option>
+                <option value="price_desc">Ціна (спадання)</option>
+                <option value="id_desc">Новизна (спочатку нові)</option>
+                <option value="id_asc">Новизна (спочатку старі)</option>
+            </select>
+        </label>
+    </div>
+
+    <div id="productList"></div>
+
+    <script>
+        // ===== Функції роботи з localStorage =====
+        function loadProductsFromStorage() {
+            const data = localStorage.getItem('products');
+            return data ? JSON.parse(data) : null;
+        }
+
+        function saveProductsToStorage(products) {
+            localStorage.setItem('products', JSON.stringify(products));
+        }
+
+        // ===== Завантаження з API =====
+        function fetchProductsFromAPI() {
+            return fetch('https://dummyjson.com/products?limit=100&skip=0')
+                .then(response => response.json())
+                .then(data => data.products) // масив продуктів
+                .catch(err => {
+                    alert('Помилка завантаження даних: ' + err.message);
+                    return [];
+                });
+        }
+
+        // ===== Рендеринг з фільтрацією =====
+        function renderProducts() {
+            const products = loadProductsFromStorage();
+            if (!products || products.length === 0) {
+                document.getElementById('productList').innerHTML = '<p>Немає продуктів</p>';
+                return;
+            }
+
+            const category = document.getElementById('categoryFilter').value;
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase().trim();
+            const sort = document.getElementById('sortSelect').value;
+
+            let filtered = products;
+
+            // Фільтр за категорією
+            if (category) {
+                filtered = filtered.filter(p => p.category === category);
+            }
+
+            // Пошук (case-insensitive) у назві та описі
+            if (searchTerm) {
+                filtered = filtered.filter(p =>
+                    p.title.toLowerCase().includes(searchTerm) ||
+                    (p.description && p.description.toLowerCase().includes(searchTerm))
+                );
+            }
+
+            // Сортування
+            switch (sort) {
+                case 'price_asc':
+                    filtered.sort((a, b) => a.price - b.price);
+                    break;
+                case 'price_desc':
+                    filtered.sort((a, b) => b.price - a.price);
+                    break;
+                case 'id_asc':
+                    filtered.sort((a, b) => a.id - b.id);
+                    break;
+                case 'id_desc':
+                    filtered.sort((a, b) => b.id - a.id);
+                    break;
+            }
+
+            // Відображення карток
+            const container = document.getElementById('productList');
+            if (filtered.length === 0) {
+                container.innerHTML = '<p>Немає продуктів за вибраними критеріями</p>';
+                return;
+            }
+            let html = '';
+            filtered.forEach(p => {
+                html += `<div class="product-card">
+                    <strong>${p.title}</strong><br>
+                    Ціна: ${p.price} грн<br>
+                    Категорія: ${p.category}<br>
+                    Опис: ${p.description || ''}<br>
+                    <img src="${p.thumbnail || 'https://via.placeholder.com/100'}" alt="${p.title}" style="max-width:100px;"><br>
+                </div>`;
+            });
+            container.innerHTML = html;
+        }
+
+        // ===== Обробник кліку на "start" =====
+        function startApp() {
+            const btn = document.getElementById('startBtn');
+            btn.textContent = 'Завантаження...';
+            btn.disabled = true;
+
+            fetchProductsFromAPI().then(products => {
+                if (products.length > 0) {
+                    saveProductsToStorage(products);
+                    // Показуємо форму фільтрації, ховаємо кнопку
+                    document.getElementById('filterForm').style.display = 'block';
+                    btn.style.display = 'none';
+                    renderProducts();
+                } else {
+                    alert('Не вдалося завантажити дані. Спробуйте пізніше.');
+                    btn.textContent = '▶ start';
+                    btn.disabled = false;
+                }
+            });
+        }
+
+        // ===== Ініціалізація при завантаженні =====
+        document.addEventListener('DOMContentLoaded', function() {
+            const products = loadProductsFromStorage();
+            const btn = document.getElementById('startBtn');
+            const filterForm = document.getElementById('filterForm');
+
+            if (products && products.length > 0) {
+                // Дані є – показуємо форму і картки
+                filterForm.style.display = 'block';
+                btn.style.display = 'none';
+                renderProducts();
+            } else {
+                // Даних немає – показуємо кнопку start, ховаємо форму
+                filterForm.style.display = 'none';
+                btn.style.display = 'inline-block';
+                btn.onclick = startApp;
+                document.getElementById('productList').innerHTML = '<p>Натисніть "start" для завантаження товарів</p>';
+            }
+
+            // Обробники для форми (оновлюють картки при зміні)
+            document.getElementById('categoryFilter').addEventListener('change', renderProducts);
+            document.getElementById('searchInput').addEventListener('input', renderProducts);
+            document.getElementById('sortSelect').addEventListener('change', renderProducts);
+        });
+    </script>
+</body>
+</html>
