@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Lab 24 – jQuery (задовільно)</title>
+    <!-- Підключення jQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+</head>
+<body>
+
+    <h1>Лабораторна №24 – завдання 1, 2, 3</h1>
+
+    <!-- ===== Завдання 1 ===== -->
+    <h2>Завдання 1</h2>
+    <a href="https://example.com">Посилання на https</a><br>
+    <a href="http://example.com">Посилання на http</a><br>
+    <a href="ftp://example.com">Посилання на ftp</a>
+
+    <!-- ===== Завдання 2 ===== -->
+    <h2>Завдання 2</h2>
+    <h2 class="head">header1</h2>
+    <h2 class="head">header2 <span class="inner">inner elem1</span></h2>
+    <h2>header3</h2>
+    <h2 class="head">header4<span>inner elem2</span></h2>
+    <h2>header5</h2>
+
+    <!-- ===== Завдання 3 ===== -->
+    <h2>Завдання 3</h2>
+    <h3>header1</h3>
+    <div>text1</div>
+    <h3>header2</h3>
+    <div>text2</div>
+
+    <script>
+        $(document).ready(function() {
+            // ================================================
+            // Завдання 1 – для посилань з href на https:// додаємо target="_blank"
+            // ================================================
+            $('a[href^="https://"]').attr('target', '_blank');
+
+            // ================================================
+            // Завдання 2 – всім h2 з класом head ставимо зелений фон,
+            // а всередині них елементам з класом inner – шрифт 35px
+            // ================================================
+            $('h2.head').css('background-color', 'lightgreen');
+            $('h2.head .inner').css('font-size', '35px');
+
+            // ================================================
+            // Завдання 3 – знаходимо div, які йдуть безпосередньо після h3,
+            // і переміщуємо їх перед відповідним h3
+            // ================================================
+            $('h3 + div').each(function() {
+                // поточний div
+                var $div = $(this);
+                // попередній h3 (йде перед div)
+                var $h3 = $div.prev('h3');
+                // вставляємо div перед h3
+                $div.insertBefore($h3);
+            });
+        });
+    </script>
+
+</body>
+</html>
