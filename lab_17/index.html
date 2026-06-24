@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Лабораторна №17 (задовільно)</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        /* ===== Загальні стилі ===== */
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f4f4f4;
+            margin: 0;
+        }
+        .task {
+            background: white;
+            padding: 20px;
+            margin-bottom: 40px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .task h2 {
+            margin-top: 0;
+            color: #2c3e50;
+        }
+        hr {
+            border: 1px dashed #ccc;
+            margin: 20px 0;
+        }
+
+        /* ===== Завдання 1 – блоки ===== */
+        .block {
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 15px;
+            margin-bottom: 15px;
+            background: #fafafa;
+        }
+        .block h3 { margin-top: 0; }
+        .block button {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 6px 14px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .block button:hover { background: #c0392b; }
+
+        /* ===== Завдання 2 – адаптивне меню ===== */
+        .navbar {
+            background: #2c3e50;
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .burger {
+            font-size: 28px;
+            cursor: pointer;
+            display: none; /* ховаємо на великих екранах */
+            background: none;
+            border: none;
+            color: white;
+        }
+        .nav-links {
+            display: flex;
+            gap: 20px;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        .nav-links li a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 12px;
+            display: block;
+        }
+        .nav-links li a:hover {
+            background: #34495e;
+            border-radius: 4px;
+        }
+
+        /* Адаптивність – бургер з'являється при ширині <= 600px */
+        @media (max-width: 600px) {
+            .burger {
+                display: block;
+            }
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                width: 100%;
+                background: #2c3e50;
+                padding: 10px 0;
+            }
+            .nav-links.open {
+                display: flex;
+            }
+            .nav-links li {
+                text-align: center;
+            }
+        }
+
+        .text-content {
+            padding: 15px;
+            line-height: 1.6;
+        }
+
+        /* ===== Завдання 3 – випадаючі списки ===== */
+        .select-container {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .select-container select {
+            padding: 8px 12px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+        #result {
+            margin-top: 15px;
+            font-weight: bold;
+            font-size: 18px;
+            color: #2c3e50;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Лабораторна робота №17 (оцінка "Задовільно")</h1>
+    <p>Усі три завдання реалізовано нижче.</p>
+    <hr>
+
+    <!-- =================================================== -->
+    <!-- ЗАВДАННЯ 1                                          -->
+    <!-- =================================================== -->
+    <div class="task" id="task1">
+        <h2>Завдання 1 – Блоки з кнопкою видалення</h2>
+        <div id="blocksContainer">
+            <!-- Блоки будуть створені через JavaScript -->
+        </div>
+    </div>
+
+    <!-- =================================================== -->
+    <!-- ЗАВДАННЯ 2                                          -->
+    <!-- =================================================== -->
+    <div class="task" id="task2">
+        <h2>Завдання 2 – Адаптивне меню (бургер)</h2>
+        <nav class="navbar">
+            <div class="logo">Мій сайт</div>
+            <button class="burger" id="burgerBtn">☰</button>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Products</a></li>
+                <li><a href="#">Contacts</a></li>
+                <li><a href="#">About</a></li>
+            </ul>
+        </nav>
+        <div class="text-content">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Magnam ipsam et quas tenetur officiis, laboriosam architecto fugiat cupiditate asperiores vitae necessitatibus dolor, beatae odio deserunt illo error! Molestiae earum libero cumque alias impedit dolores. Fugit ratione blanditiis deserunt voluptate deleniti hic ipsam nam rerum distinctio quod culpa, libero iste dolore.</p>
+            <p>Magnam ipsam et quas tenetur officiis, laboriosam architecto fugiat cupiditate asperiores vitae necessitatibus dolor, beatae odio deserunt illo error! Molestiae earum libero cumque alias impedit dolores. Fugit ratione blanditiis deserunt voluptate deleniti hic ipsam nam rerum distinctio quod culpa, libero iste dolore.</p>
+            <p>Tenetur officiis, laboriosam architecto fugiat cupiditate asperiores vitae necessitatibus dolor, beatae odio deserunt illo error! Molestiae earum libero cumque alias impedit dolores. Fugit ratione blanditiis deserunt voluptate deleniti hic ipsam nam rerum distinctio quod culpa, libero iste dolore.</p>
+        </div>
+    </div>
+
+    <!-- =================================================== -->
+    <!-- ЗАВДАННЯ 3                                          -->
+    <!-- =================================================== -->
+    <div class="task" id="task3">
+        <h2>Завдання 3 – Країни та міста</h2>
+        <div class="select-container">
+            <select id="countrySelect">
+                <option value="ger">Germany</option>
+                <option value="usa">USA</option>
+                <option value="ukr">Ukraine</option>
+            </select>
+            <select id="citySelect">
+                <!-- Заповнюється динамічно -->
+            </select>
+        </div>
+        <div id="result">Оберіть країну та місто</div>
+    </div>
+
+    <script>
+        // ============================================================
+        // ЗАВДАННЯ 1 – створення блоків з кнопками видалення
+        // ============================================================
+        (function task1() {
+            const container = document.getElementById('blocksContainer');
+            const headers = ['Header 1', 'Header 2', 'Header 3'];
+            const texts = [
+                'Lorem ipsum dolor sit amet consectetur adipisicing elit. Officia distinctio doloribus nulla laboriosam optio odio dolor officiis fugit aliquam eos cum quia sequi quidem voluptate sint praesentium, reiciendis voluptas at nihil magni, similique, autem sunt? Harum magni dignissimos beatae veniam maxime deserunt optio, explicabo provident, error, facere temporibus quod eum?',
+                'Lorem ipsum dolor sit amet consectetur adipisicing elit. Officia distinctio doloribus nulla laboriosam optio odio dolor officiis fugit aliquam eos cum quia sequi quidem voluptate sint praesentium, reiciendis voluptas at nihil magni, similique, autem sunt? Harum magni dignissimos beatae veniam maxime deserunt optio, explicabo provident, error, facere temporibus quod eum?',
+                'Lorem ipsum dolor sit amet consectetur adipisicing elit. Officia distinctio doloribus nulla laboriosam optio odio dolor officiis fugit aliquam eos cum quia sequi quidem voluptate sint praesentium, reiciendis voluptas at nihil magni, similique, autem sunt? Harum magni dignissimos beatae veniam maxime deserunt optio, explicabo provident, error, facere temporibus quod eum?'
+            ];
+
+            headers.forEach((title, index) => {
+                const div = document.createElement('div');
+                div.className = 'block';
+                div.innerHTML = `
+                    <h3>${title}</h3>
+                    <p>${texts[index]}</p>
+                    <button class="delete-btn">Видалити блок</button>
+                `;
+                container.appendChild(div);
+            });
+
+            // Призначаємо обробники для всіх кнопок видалення
+            document.querySelectorAll('.delete-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    // Видаляємо батьківський .block
+                    const block = this.closest('.block');
+                    if (block) {
+                        block.remove();
+                    }
+                });
+            });
+        })();
+
+
+        // ============================================================
+        // ЗАВДАННЯ 2 – бургер-меню
+        // ============================================================
+        (function task2() {
+            const burger = document.getElementById('burgerBtn');
+            const navLinks = document.getElementById('navLinks');
+
+            // Перемикання класу open при кліку на бургер
+            burger.addEventListener('click', function(e) {
+                e.stopPropagation(); // щоб не спрацював глобальний клік одразу
+                navLinks.classList.toggle('open');
+            });
+
+            // Згортання меню при кліку поза ним
+            document.addEventListener('click', function(e) {
+                const isClickInside = navLinks.contains(e.target) || burger.contains(e.target);
+                if (!isClickInside && navLinks.classList.contains('open')) {
+                    navLinks.classList.remove('open');
+                }
+            });
+
+            // Також можна згортати при кліку на пункт меню (для зручності)
+            navLinks.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', function() {
+                    if (window.innerWidth <= 600) {
+                        navLinks.classList.remove('open');
+                    }
+                });
+            });
+        })();
+
+
+        // ============================================================
+        // ЗАВДАННЯ 3 – країни та міста
+        // ============================================================
+        (function task3() {
+            // Дані: країни та міста
+            const citiesData = {
+                ger: ['Berlin', 'Munich', 'Hamburg', 'Cologne'],
+                usa: ['New York', 'Los Angeles', 'Chicago', 'Houston'],
+                ukr: ['Kyiv', 'Lviv', 'Odesa', 'Kharkiv']
+            };
+
+            const countrySelect = document.getElementById('countrySelect');
+            const citySelect = document.getElementById('citySelect');
+            const resultDiv = document.getElementById('result');
+
+            // Функція оновлення міст
+            function updateCities() {
+                const country = countrySelect.value;
+                const cities = citiesData[country] || [];
+                // Очищаємо список
+                citySelect.innerHTML = '';
+                // Додаємо нові опції
+                cities.forEach(city => {
+                    const option = document.createElement('option');
+                    option.value = city;
+                    option.textContent = city;
+                    citySelect.appendChild(option);
+                });
+                // Оновлюємо виведення
+                updateResult();
+            }
+
+            // Функція виведення обраного
+            function updateResult() {
+                const countryName = countrySelect.options[countrySelect.selectedIndex].text;
+                const cityName = citySelect.value || 'не обрано';
+                resultDiv.textContent = `Країна: ${countryName}, Місто: ${cityName}`;
+            }
+
+            // Обробники подій
+            countrySelect.addEventListener('change', function() {
+                updateCities();
+            });
+
+            citySelect.addEventListener('change', function() {
+                updateResult();
+            });
+
+            // Початкова ініціалізація
+            updateCities();
+        })();
+    </script>
+
+</body>
+</html>
