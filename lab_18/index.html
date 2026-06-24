@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Лабораторна №18 (задовільно)</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f4f4f4;
+            margin: 0;
+        }
+        h1 {
+            color: #2c3e50;
+        }
+        #output {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            font-size: 16px;
+            line-height: 1.6;
+            max-width: 800px;
+        }
+        hr {
+            border: 1px dashed #ccc;
+            margin: 15px 0;
+        }
+        .task-title {
+            font-weight: bold;
+            color: #2980b9;
+            font-size: 18px;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Лабораторна робота №18 – ООП (оцінка "Задовільно")</h1>
+    <div id="output"></div>
+
+    <script>
+        // Функція для виведення тексту на сторінку
+        function print(text) {
+            const container = document.getElementById('output');
+            const p = document.createElement('p');
+            p.textContent = text;
+            container.appendChild(p);
+        }
+
+        // Додаємо заголовок завдання
+        function printTask(title) {
+            const container = document.getElementById('output');
+            const h3 = document.createElement('h3');
+            h3.textContent = title;
+            h3.style.color = '#2980b9';
+            h3.style.marginBottom = '5px';
+            container.appendChild(h3);
+        }
+
+        // ============================================================
+        // ЗАВДАННЯ 1 – Функція-конструктор Car
+        // ============================================================
+        printTask('Завдання 1 – Функція-конструктор Car');
+
+        function Car(brand, model, year) {
+            this.brand = brand;
+            this.model = model;
+            this.year = year;
+        }
+
+        Car.prototype.displayInfo = function() {
+            print(`Авто: ${this.brand} ${this.model}, ${this.year} рік`);
+        };
+
+        Car.prototype.drive = function() {
+            print('Рух розпочато');
+        };
+
+        // Створюємо об'єкти
+        const car1 = new Car('Toyota', 'Camry', 2021);
+        const car2 = new Car('Honda', 'Civic', 2019);
+        const car3 = new Car('BMW', 'X5', 2022);
+
+        car1.displayInfo();
+        car1.drive();
+        car2.displayInfo();
+        car2.drive();
+        car3.displayInfo();
+        car3.drive();
+
+        // ============================================================
+        // ЗАВДАННЯ 2 – Клас Student
+        // ============================================================
+        printTask('Завдання 2 – Клас Student');
+
+        class Student {
+            constructor(name, age, grade) {
+                this.name = name;
+                this.age = age;
+                this.grade = grade;
+            }
+
+            study() {
+                print(`Студент ${this.name} (вік ${this.age}, оцінка ${this.grade}) навчається`);
+            }
+        }
+
+        const student1 = new Student('Олексій', 20, 92);
+        const student2 = new Student('Марія', 22, 88);
+        const student3 = new Student('Іван', 19, 75);
+
+        student1.study();
+        student2.study();
+        student3.study();
+
+        // ============================================================
+        // ЗАВДАННЯ 3 – Клас Shape, підкласи Circle та Rectangle
+        // ============================================================
+        printTask('Завдання 3 – Клас Shape, Circle, Rectangle');
+
+        class Shape {
+            constructor(color) {
+                this.color = color;
+            }
+        }
+
+        class Circle extends Shape {
+            constructor(color, radius) {
+                super(color);
+                this.radius = radius;
+            }
+
+            area() {
+                return Math.PI * this.radius ** 2;
+            }
+
+            perimeter() {
+                return 2 * Math.PI * this.radius;
+            }
+        }
+
+        class Rectangle extends Shape {
+            constructor(color, width, height) {
+                super(color);
+                this.width = width;
+                this.height = height;
+            }
+
+            area() {
+                return this.width * this.height;
+            }
+
+            perimeter() {
+                return 2 * (this.width + this.height);
+            }
+        }
+
+        // Створюємо екземпляри
+        const circle = new Circle('червоний', 5);
+        const rectangle = new Rectangle('синій', 4, 6);
+
+        print(`Коло: колір – ${circle.color}, площа – ${circle.area().toFixed(2)}`);
+        print(`Прямокутник: колір – ${rectangle.color}, площа – ${rectangle.area()}`);
+
+        // Додатково виводимо периметр для наочності (не обов'язково, але покажемо)
+        print(`Коло: периметр – ${circle.perimeter().toFixed(2)}`);
+        print(`Прямокутник: периметр – ${rectangle.perimeter()}`);
+
+        print('--- Кінець програми ---');
+    </script>
+
+</body>
+</html>
