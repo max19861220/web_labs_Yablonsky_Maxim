@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Лабораторна №14 (задовільно)</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; background: #f4f4f4; }
+        .block { background: white; padding: 15px; margin-bottom: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        .block h2 { margin-top: 0; color: #2c3e50; }
+        .output { background: #ecf0f1; padding: 10px; border-radius: 5px; white-space: pre-wrap; }
+        hr { border: 1px dashed #ccc; }
+    </style>
+</head>
+<body>
+
+    <h1>Лабораторна робота №14 (оцінка "Задовільно")</h1>
+    <p>Результати виводяться нижче.</p>
+    <hr>
+
+    <div id="results"></div>
+
+    <script>
+        // Функція для виведення тексту на сторінку
+        function print(text) {
+            const container = document.getElementById('results');
+            const p = document.createElement('p');
+            p.textContent = text;
+            container.appendChild(p);
+        }
+
+        function printTitle(title) {
+            const container = document.getElementById('results');
+            const h2 = document.createElement('h2');
+            h2.textContent = title;
+            container.appendChild(h2);
+        }
+
+        // ============================================================
+        // ЗАВДАННЯ 1
+        // ============================================================
+        printTitle('Завдання 1 — об\'єднання масиву через "*"');
+
+        let cities = ["Ternopil", "Lviv", "Warsaw"];
+        let result1 = cities.join('*');
+        print('Масив: [' + cities.join(', ') + ']');
+        print('Результат: "' + result1 + '"');
+
+        // ============================================================
+        // ЗАВДАННЯ 2
+        // ============================================================
+        printTitle('Завдання 2 — добуток елементів масиву [2, 3, 4, 5]');
+
+        let arr = [2, 3, 4, 5];
+
+        // через for
+        let productFor = 1;
+        for (let i = 0; i < arr.length; i++) {
+            productFor *= arr[i];
+        }
+        print('Добуток через for: ' + productFor);
+
+        // через while
+        let productWhile = 1;
+        let j = 0;
+        while (j < arr.length) {
+            productWhile *= arr[j];
+            j++;
+        }
+        print('Добуток через while: ' + productWhile);
+
+        // ============================================================
+        // ЗАВДАННЯ 3
+        // ============================================================
+        printTitle('Завдання 3 — функція findMin()');
+
+        function findMin() {
+            if (arguments.length === 0) return undefined;
+            let min = arguments[0];
+            for (let i = 1; i < arguments.length; i++) {
+                if (arguments[i] < min) {
+                    min = arguments[i];
+                }
+            }
+            return min;
+        }
+
+        let test1 = findMin(12, 14, 4, -4, 0.2);
+        let test2 = findMin(5, 2, 8, 1);
+        let test3 = findMin(-10, -20, -5);
+        print('findMin(12, 14, 4, -4, 0.2) => ' + test1);
+        print('findMin(5, 2, 8, 1) => ' + test2);
+        print('findMin(-10, -20, -5) => ' + test3);
+
+        // ============================================================
+        // ЗАВДАННЯ 4
+        // ============================================================
+        printTitle('Завдання 4 — функція findUnique(arr)');
+
+        function findUnique(arr) {
+            for (let i = 0; i < arr.length; i++) {
+                for (let k = i + 1; k < arr.length; k++) {
+                    if (arr[i] === arr[k]) {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+
+        let arr1 = [1, 2, 3, 5, 3];
+        let arr2 = [1, 2, 3, 5, 11];
+        print('findUnique([1, 2, 3, 5, 3]) => ' + findUnique(arr1));
+        print('findUnique([1, 2, 3, 5, 11]) => ' + findUnique(arr2));
+
+        printTitle('--- Кінець програми ---');
+    </script>
+
+</body>
+</html>
