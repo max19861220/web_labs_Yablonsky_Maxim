@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Лабораторна №15 (задовільно)</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; background: #f4f4f4; }
+        .block { background: white; padding: 15px; margin-bottom: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        .block h2 { margin-top: 0; color: #2c3e50; }
+        .output { background: #ecf0f1; padding: 10px; border-radius: 5px; white-space: pre-wrap; }
+        hr { border: 1px dashed #ccc; }
+    </style>
+</head>
+<body>
+
+    <h1>Лабораторна робота №15 (оцінка "Задовільно")</h1>
+    <p>Результати виводяться нижче.</p>
+    <hr>
+
+    <div id="results"></div>
+
+    <script>
+        // Функція для виведення тексту на сторінку
+        function print(text) {
+            const container = document.getElementById('results');
+            const p = document.createElement('p');
+            p.textContent = text;
+            container.appendChild(p);
+        }
+
+        function printTitle(title) {
+            const container = document.getElementById('results');
+            const h2 = document.createElement('h2');
+            h2.textContent = title;
+            container.appendChild(h2);
+        }
+
+        // ============================================================
+        // ЗАВДАННЯ 1.1 – Деструктуризація об'єкта student
+        // ============================================================
+        printTitle('Завдання 1.1 – Деструктуризація об\'єкта student');
+
+        const student = {
+            name: 'Олексій',
+            age: 20,
+            gender: 'чоловіча'
+        };
+
+        const { name: studentName, age: studentAge, gender: studentGender } = student;
+        print(`studentName: ${studentName}`);
+        print(`studentAge: ${studentAge}`);
+        print(`studentGender: ${studentGender}`);
+
+        // ============================================================
+        // ЗАВДАННЯ 1.2 – Вкладена деструктуризація об'єкта car
+        // ============================================================
+        printTitle('Завдання 1.2 – Вкладена деструктуризація об\'єкта car');
+
+        const car = {
+            engine: {
+                cylinders: 6,
+                horsepower: 200
+            }
+        };
+
+        const { engine: { cylinders: engineCylinders, horsepower: engineHorsepower } } = car;
+        print(`engineCylinders: ${engineCylinders}`);
+        print(`engineHorsepower: ${engineHorsepower}`);
+
+        // ============================================================
+        // ЗАВДАННЯ 1.3 – Деструктуризація об'єкта book
+        // ============================================================
+        printTitle('Завдання 1.3 – Деструктуризація об\'єкта book');
+
+        const book = {
+            title: 'Майстер і Маргарита',
+            author: 'Михайло Булгаков'
+        };
+
+        const { title: bookTitle, author: bookAuthor } = book;
+        print(`bookTitle: ${bookTitle}`);
+        print(`bookAuthor: ${bookAuthor}`);
+
+        // ============================================================
+        // ЗАВДАННЯ 2.1 – Деструктуризація масиву numbers
+        // ============================================================
+        printTitle('Завдання 2.1 – Деструктуризація масиву numbers');
+
+        const numbers = [1, 2, 3];
+        const [firstName, secondNumber, thirdNumber] = numbers;
+        print(`firstName: ${firstName}`);
+        print(`secondNumber: ${secondNumber}`);
+        print(`thirdNumber: ${thirdNumber}`);
+
+        // ============================================================
+        // ЗАВДАННЯ 2.2 – Деструктуризація масиву fruits (перший елемент + решта)
+        // ============================================================
+        printTitle('Завдання 2.2 – Деструктуризація масиву fruits');
+
+        const fruits = ['apple', 'orange', 'banana'];
+        const [firstFruit, ...restFruits] = fruits;
+        print(`firstFruit: ${firstFruit}`);
+        print(`restFruits: [${restFruits.join(', ')}]`);
+
+        // ============================================================
+        // ЗАВДАННЯ 2.3 – Об'єднання двох масивів за допомогою деструктуризації
+        // ============================================================
+        printTitle('Завдання 2.3 – Об\'єднання масивів art1 та art2');
+
+        const art1 = [1, 2, 3];
+        const art2 = [4, 5, 6];
+        // Використовуємо spread-оператор для об'єднання
+        const combinedArray = [...art1, ...art2];
+        print(`combinedArray: [${combinedArray.join(', ')}]`);
+
+        // ============================================================
+        // ЗАВДАННЯ 3 – Перетворення першої букви кожного слова у верхній регістр
+        // ============================================================
+        printTitle('Завдання 3 – Перетворення рядка "i like java script"');
+
+        function capitalizeWords(str) {
+            return str.split(' ')
+                .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                .join(' ');
+        }
+
+        const inputStr = 'i like java script';
+        const outputStr = capitalizeWords(inputStr);
+        print(`Вхідний рядок: "${inputStr}"`);
+        print(`Вихідний рядок: "${outputStr}"`);
+
+        // ============================================================
+        // ЗАВДАННЯ 4 – Перетворення CSS-стилів з дефісом у CamelCase
+        // ============================================================
+        printTitle('Завдання 4 – Перетворення CSS-властивостей у CamelCase');
+
+        function kebabToCamel(str) {
+            return str.replace(/-([a-z])/g, (match, letter) => letter.toUpperCase());
+        }
+
+        const cssProps = ['font-size', 'background-color', 'text-align', 'border-radius'];
+        cssProps.forEach(prop => {
+            const camel = kebabToCamel(prop);
+            print(`${prop} => ${camel}`);
+        });
+
+        printTitle('--- Кінець програми ---');
+    </script>
+
+</body>
+</html>
