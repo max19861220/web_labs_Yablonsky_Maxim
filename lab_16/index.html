@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Лабораторна №16 (задовільно)</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f4f4f4;
+        }
+        .task {
+            background: white;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .task h2 {
+            margin-top: 0;
+            color: #2c3e50;
+        }
+        .container {
+            border: 2px dashed #ccc;
+            padding: 20px;
+            margin: 10px 0;
+            min-height: 60px;
+            background: #fafafa;
+        }
+        .container div {
+            background: #3498db;
+            color: white;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 4px;
+        }
+        button {
+            background: #2c3e50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #1a252f;
+        }
+        .editable-div {
+            background: #ecf0f1;
+            padding: 15px;
+            border-radius: 4px;
+            border: 1px solid #bdc3c7;
+            margin: 10px 0;
+            font-size: 18px;
+        }
+        .toggle-items {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin: 10px 0;
+        }
+        .toggle-items .item {
+            background: #e67e22;
+            color: white;
+            padding: 15px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        .hidden {
+            display: none !important;
+        }
+        hr {
+            border: 1px dashed #ccc;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Лабораторна робота №16 (оцінка "Задовільно")</h1>
+    <p>Завдання 1, 2, 3 виконано нижче.</p>
+    <hr>
+
+    <!-- ===================== ЗАВДАННЯ 1 ===================== -->
+    <div class="task">
+        <h2>Завдання 1 – Створення div при кліку та зміна стилів</h2>
+        <button id="createDivBtn">Створити новий div</button>
+        <div class="container" id="container1">
+            <!-- Сюди будуть додаватися нові div-и -->
+        </div>
+        <p><em>При кліку на кнопку з'явиться новий елемент div із випадковим кольором, розміром та відступами.</em></p>
+    </div>
+
+    <!-- ===================== ЗАВДАННЯ 2 ===================== -->
+    <div class="task">
+        <h2>Завдання 2 – Редагування тексту через prompt()</h2>
+        <div class="editable-div" id="editableText">
+            Цей текст можна змінити. Натисніть кнопку нижче.
+        </div>
+        <button id="editTextBtn">Змінити текст</button>
+        <p><em>Після натискання кнопки з'явиться вікно prompt(), де ви введете новий текст.</em></p>
+    </div>
+
+    <!-- ===================== ЗАВДАННЯ 3 ===================== -->
+    <div class="task">
+        <h2>Завдання 3 – Показати / приховати елементи</h2>
+        <button id="toggleBtn">Приховати / показати елементи</button>
+        <div class="toggle-items">
+            <div class="item">Елемент 1</div>
+            <div class="item">Елемент 2</div>
+            <div class="item">Елемент 3</div>
+        </div>
+        <p><em>Кнопка перемикає видимість усіх трьох елементів.</em></p>
+    </div>
+
+    <script>
+        // ============================================================
+        // ЗАВДАННЯ 1 – Створення div та зміна стилів
+        // ============================================================
+        document.getElementById('createDivBtn').addEventListener('click', function() {
+            const container = document.getElementById('container1');
+            const newDiv = document.createElement('div');
+
+            // Додаємо текст
+            newDiv.textContent = 'Я новий div! (ID: ' + Date.now() + ')';
+
+            // Змінюємо три CSS-властивості випадковим чином
+            const randomColor = '#' + Math.floor(Math.random()*16777215).toString(16);
+            const randomFontSize = Math.floor(Math.random() * 20 + 14) + 'px'; // 14-34px
+            const randomPadding = Math.floor(Math.random() * 15 + 5) + 'px';  // 5-20px
+
+            newDiv.style.backgroundColor = randomColor;
+            newDiv.style.fontSize = randomFontSize;
+            newDiv.style.padding = randomPadding;
+            newDiv.style.borderRadius = '8px';
+
+            container.appendChild(newDiv);
+        });
+
+        // ============================================================
+        // ЗАВДАННЯ 2 – Редагування тексту через prompt()
+        // ============================================================
+        document.getElementById('editTextBtn').addEventListener('click', function() {
+            const editableDiv = document.getElementById('editableText');
+            const currentText = editableDiv.textContent;
+            const newText = prompt('Введіть новий текст для цього елемента:', currentText);
+
+            if (newText !== null) { // Якщо користувач не натиснув "Скасувати"
+                editableDiv.textContent = newText;
+            }
+        });
+
+        // ============================================================
+        // ЗАВДАННЯ 3 – Показати / приховати елементи
+        // ============================================================
+        const toggleBtn = document.getElementById('toggleBtn');
+        const items = document.querySelectorAll('.toggle-items .item');
+        let isHidden = false;
+
+        toggleBtn.addEventListener('click', function() {
+            isHidden = !isHidden;
+            items.forEach(item => {
+                if (isHidden) {
+                    item.classList.add('hidden');
+                } else {
+                    item.classList.remove('hidden');
+                }
+            });
+            toggleBtn.textContent = isHidden ? 'Показати елементи' : 'Приховати елементи';
+        });
+    </script>
+
+</body>
+</html>
