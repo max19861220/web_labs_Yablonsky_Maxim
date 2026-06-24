@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Лабораторна №19 – Форми</title>
+    <style>
+        /* ===== Загальні стилі ===== */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            padding: 0 20px 40px;
+        }
+
+        /* ===== Хедер ===== */
+        .header {
+            background: #2c3e50;
+            color: white;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        .header h1 {
+            font-size: 26px;
+        }
+        .header button {
+            background: #27ae60;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .header button:hover {
+            background: #219a52;
+        }
+
+        /* ===== Список продуктів ===== */
+        .product-list {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            min-height: 100px;
+        }
+        .product-list h2 {
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+        .product-item {
+            border-bottom: 1px solid #ddd;
+            padding: 10px 0;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+        .product-item:last-child {
+            border-bottom: none;
+        }
+        .product-item strong {
+            color: #2c3e50;
+        }
+        .empty-msg {
+            color: #888;
+            font-style: italic;
+        }
+
+        /* ===== Модальне вікно ===== */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .modal-overlay.active {
+            display: flex;
+        }
+        .modal {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+        }
+        .modal-close {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 28px;
+            cursor: pointer;
+            color: #888;
+            background: none;
+            border: none;
+        }
+        .modal-close:hover {
+            color: #e74c3c;
+        }
+        .modal h2 {
+            margin-bottom: 20px;
+            color: #2c3e50;
+        }
+        .modal label {
+            display: block;
+            margin: 12px 0 4px;
+            font-weight: bold;
+            color: #333;
+        }
+        .modal input,
+        .modal select,
+        .modal textarea {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        .modal textarea {
+            resize: vertical;
+            min-height: 60px;
+        }
+        .modal .error {
+            color: #e74c3c;
+            font-size: 13px;
+            margin-top: 4px;
+            display: block;
+        }
+        .modal .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .modal .form-actions button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .modal .btn-save {
+            background: #27ae60;
+            color: white;
+        }
+        .modal .btn-save:hover {
+            background: #219a52;
+        }
+        .modal .btn-cancel {
+            background: #95a5a6;
+            color: white;
+        }
+        .modal .btn-cancel:hover {
+            background: #7f8c8d;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== Хедер ===== -->
+    <header class="header">
+        <h1>🛒 eShop</h1>
+        <button id="createProductBtn">+ create Product</button>
+    </header>
+
+    <!-- ===== Список продуктів ===== -->
+    <div class="product-list" id="productList">
+        <h2>Список продуктів</h2>
+        <div id="productsContainer">
+            <p class="empty-msg">Поки що немає продуктів. Додайте перший!</p>
+        </div>
+    </div>
+
+    <!-- ===== Модальне вікно ===== -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal">
+            <button class="modal-close" id="modalCloseBtn">&times;</button>
+            <h2>Створення продукту</h2>
+            <form id="productForm" novalidate>
+                <label for="title">Назва *</label>
+                <input type="text" id="title" name="title" required>
+                <span class="error" id="titleError"></span>
+
+                <label for="description">Опис *</label>
+                <textarea id="description" name="description" required></textarea>
+                <span class="error" id="descriptionError"></span>
+
+                <label for="price">Ціна (грн) *</label>
+                <input type="number" id="price" name="price" min="0" step="0.01" required>
+                <span class="error" id="priceError"></span>
+
+                <label for="discount">Знижка (%)</label>
+                <input type="number" id="discount" name="discount" min="0" max="100" step="0.1" value="0">
+                <span class="error" id="discountError"></span>
+
+                <label for="category">Категорія *</label>
+                <select id="category" name="category" required>
+                    <option value="">Оберіть категорію</option>
+                    <option value="smartphones">Смартфони</option>
+                    <option value="laptops">Ноутбуки</option>
+                    <option value="fragrances">Аромати</option>
+                    <option value="electronics">Електроніка</option>
+                    <option value="clothing">Одяг</option>
+                </select>
+                <span class="error" id="categoryError"></span>
+
+                <label for="image">Зображення (URL) *</label>
+                <input type="url" id="image" name="image" placeholder="https://example.com/photo.jpg" required>
+                <span class="error" id="imageError"></span>
+
+                <div class="form-actions">
+                    <button type="button" class="btn-cancel" id="cancelBtn">Скасувати</button>
+                    <button type="submit" class="btn-save">Save Product</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // ============================================================
+        // ДАНІ
+        // ============================================================
+        let products = [];
+
+        // ============================================================
+        // ЕЛЕМЕНТИ DOM
+        // ============================================================
+        const modalOverlay = document.getElementById('modalOverlay');
+        const createBtn = document.getElementById('createProductBtn');
+        const closeBtn = document.getElementById('modalCloseBtn');
+        const cancelBtn = document.getElementById('cancelBtn');
+        const form = document.getElementById('productForm');
+        const productsContainer = document.getElementById('productsContainer');
+
+        // Поля форми
+        const titleInput = document.getElementById('title');
+        const descriptionInput = document.getElementById('description');
+        const priceInput = document.getElementById('price');
+        const discountInput = document.getElementById('discount');
+        const categoryInput = document.getElementById('category');
+        const imageInput = document.getElementById('image');
+
+        // Елементи для помилок
+        const titleError = document.getElementById('titleError');
+        const descriptionError = document.getElementById('descriptionError');
+        const priceError = document.getElementById('priceError');
+        const discountError = document.getElementById('discountError');
+        const categoryError = document.getElementById('categoryError');
+        const imageError = document.getElementById('imageError');
+
+        // ============================================================
+        // ФУНКЦІЇ ВІДОБРАЖЕННЯ СПИСКУ
+        // ============================================================
+        function renderProducts() {
+            if (products.length === 0) {
+                productsContainer.innerHTML = '<p class="empty-msg">Поки що немає продуктів. Додайте перший!</p>';
+                return;
+            }
+            let html = '';
+            products.forEach((p, index) => {
+                html += `
+                    <div class="product-item">
+                        <span><strong>${p.title}</strong> (${p.category}) – ${p.price} грн</span>
+                        <span>Знижка: ${p.discount}%</span>
+                    </div>
+                `;
+            });
+            productsContainer.innerHTML = html;
+        }
+
+        // ============================================================
+        // ВАЛІДАЦІЯ ФОРМИ
+        // ============================================================
+        function validateField(input, errorEl, condition, message) {
+            if (!condition) {
+                errorEl.textContent = message;
+                return false;
+            } else {
+                errorEl.textContent = '';
+                return true;
+            }
+        }
+
+        function validateForm() {
+            let isValid = true;
+
+            // Назва
+            isValid &= validateField(
+                titleInput,
+                titleError,
+                titleInput.value.trim().length > 0,
+                'Введіть назву продукту'
+            );
+
+            // Опис
+            isValid &= validateField(
+                descriptionInput,
+                descriptionError,
+                descriptionInput.value.trim().length > 0,
+                'Введіть опис продукту'
+            );
+
+            // Ціна (число > 0)
+            const price = parseFloat(priceInput.value);
+            isValid &= validateField(
+                priceInput,
+                priceError,
+                !isNaN(price) && price > 0,
+                'Ціна має бути додатним числом'
+            );
+
+            // Знижка (число >= 0 і <= 100)
+            const discount = parseFloat(discountInput.value);
+            isValid &= validateField(
+                discountInput,
+                discountError,
+                !isNaN(discount) && discount >= 0 && discount <= 100,
+                'Знижка має бути від 0 до 100'
+            );
+
+            // Категорія
+            isValid &= validateField(
+                categoryInput,
+                categoryError,
+                categoryInput.value !== '',
+                'Оберіть категорію'
+            );
+
+            // Зображення (URL)
+            const url = imageInput.value.trim();
+            // Проста перевірка на URL (можна розширити)
+            const urlPattern = /^https?:\/\/\S+\.\S+/;
+            isValid &= validateField(
+                imageInput,
+                imageError,
+                urlPattern.test(url),
+                'Введіть коректне URL-посилання (наприклад, https://...jpg)'
+            );
+
+            return isValid;
+        }
+
+        // ============================================================
+        // ОБРОБНИК ВІДПРАВКИ ФОРМИ
+        // ============================================================
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            if (!validateForm()) {
+                return;
+            }
+
+            // Створюємо об'єкт продукту
+            const newProduct = {
+                id: Date.now(), // унікальний ідентифікатор
+                title: titleInput.value.trim(),
+                description: descriptionInput.value.trim(),
+                price: parseFloat(priceInput.value),
+                discount: parseFloat(discountInput.value) || 0,
+                category: categoryInput.value,
+                thumbnail: imageInput.value.trim()
+            };
+
+            // Додаємо в масив
+            products.push(newProduct);
+            console.log('Додано продукт:', newProduct);
+            console.log('Усі продукти:', products);
+
+            // Оновлюємо список на сторінці
+            renderProducts();
+
+            // Закриваємо модалку та скидаємо форму
+            closeModal();
+            form.reset();
+            // Очищаємо повідомлення про помилки
+            document.querySelectorAll('.error').forEach(el => el.textContent = '');
+        });
+
+        // ============================================================
+        // ВІДКРИТТЯ / ЗАКРИТТЯ МОДАЛЬНОГО ВІКНА
+        // ============================================================
+        function openModal() {
+            modalOverlay.classList.add('active');
+        }
+
+        function closeModal() {
+            modalOverlay.classList.remove('active');
+            // Очищаємо помилки при закритті
+            document.querySelectorAll('.error').forEach(el => el.textContent = '');
+        }
+
+        createBtn.addEventListener('click', openModal);
+        closeBtn.addEventListener('click', closeModal);
+        cancelBtn.addEventListener('click', closeModal);
+
+        // Закриття по кліку на оверлей
+        modalOverlay.addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+
+        // Закриття по Escape
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && modalOverlay.classList.contains('active')) {
+                closeModal();
+            }
+        });
+
+        // ============================================================
+        // ІНІЦІАЛІЗАЦІЯ – початковий рендеринг
+        // ============================================================
+        renderProducts();
+    </script>
+
+</body>
+</html>
