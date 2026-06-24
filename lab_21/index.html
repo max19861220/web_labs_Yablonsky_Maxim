@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Lab 21</title>
+    <style>
+        /* Мінімальні стилі тільки для видимості */
+        .product-card { border:1px solid #ccc; padding:10px; margin:10px 0; }
+        .modal { display:none; position:fixed; top:20%; left:30%; background:#fff; border:1px solid #000; padding:20px; width:400px; }
+        .modal-overlay { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); }
+        .modal-overlay.active, .modal.active { display:block; }
+    </style>
+</head>
+<body>
+
+<h1>eShop</h1>
+<button id="createBtn">create Product</button>
+<div id="productList"></div>
+
+<!-- Модалка -->
+<div class="modal-overlay" id="modalOverlay"></div>
+<div class="modal" id="modal">
+    <button id="closeBtn">✕</button>
+    <h2>Створення продукту</h2>
+    <form id="productForm">
+        <p>Назва * <br><input type="text" id="title" required></p>
+        <p>Опис * <br><textarea id="description" required></textarea></p>
+        <p>Ціна * <br><input type="number" id="price" min="0" step="0.01" required></p>
+        <p>Знижка (%) <br><input type="number" id="discount" min="0" max="100" step="0.1" value="0"></p>
+        <p>Категорія * <br>
+            <select id="category" required>
+                <option value="">Оберіть</option>
+                <option value="smartphones">Смартфони</option>
+                <option value="laptops">Ноутбуки</option>
+                <option value="fragrances">Аромати</option>
+            </select>
+        </p>
+        <p>Зображення (URL) * <br><input type="url" id="image" required></p>
+        <button type="submit">Save Product</button>
+        <button type="button" id="cancelBtn">Скасувати</button>
+    </form>
+</div>
+
+<script>
+// ===== Робота з localStorage =====
+function loadProducts() {
+    const data = localStorage.getItem('products');
+    return data ? JSON.parse(data) : [];
+}
+
+function saveProducts(products) {
+    localStorage.setItem('products', JSON.stringify(products));
+}
+
+// ===== Відображення карток =====
+function renderProducts() {
+    const container = document.getElementById('productList');
+    const products = loadProducts();
+    if (products.length === 0) {
+        container.innerHTML = '<p>Немає продуктів</p>';
+        return;
+    }
+    let html = '';
+    products.forEach(p => {
+        html += `<div class="product-card">
+            <strong>${p.title}</strong><br>
+            Ціна: ${p.price} грн<br>
+            Категорія: ${p.category}<br>
+            Опис: ${p.description}<br>
+            <img src="${p.thumbnail}" alt="${p.title}" style="max-width:100px;"><br>
+            <hr>
+        </div>`;
+    });
+    container.innerHTML = html;
+}
+
+// ===== Модальне вікно =====
+const modal = document.getElementById('modal');
+const overlay = document.getElementById('modalOverlay');
+
+function openModal() {
+    modal.classList.add('active');
+    overlay.classList.add('active');
+}
+function closeModal() {
+    modal.classList.remove('active');
+    overlay.classList.remove('active');
+}
+
+document.getElementById('createBtn').onclick = openModal;
+document.getElementById('closeBtn').onclick = closeModal;
+document.getElementById('cancelBtn').onclick = closeModal;
+overlay.onclick = closeModal;
+
+// ===== Форма =====
+document.getElementById('productForm').onsubmit = function(e) {
+    e.preventDefault();
+
+    const title = document.getElementById('title').value.trim();
+    const description = document.getElementById('description').value.trim();
+    const price = parseFloat(document.getElementById('price').value);
+    const discount = parseFloat(document.getElementById('discount').value) || 0;
+    const category = document.getElementById('category').value;
+    const thumbnail = document.getElementById('image').value.trim();
+
+    // Проста валідація
+    if (!title) { alert('Введіть назву'); return; }
+    if (!description) { alert('Введіть опис'); return; }
+    if (isNaN(price) || price <= 0) { alert('Ціна має бути > 0'); return; }
+    if (discount < 0 || discount > 100) { alert('Знижка від 0 до 100'); return; }
+    if (!category) { alert('Оберіть категорію'); return; }
+    if (!thumbnail.match(/^https?:\/\/\S+\.\S+/)) { alert('Введіть коректний URL'); return; }
+
+    // Створюємо продукт
+    const newProduct = {
+        id: Date.now(),
+        title,
+        description,
+        price,
+        discount,
+        category,
+        thumbnail
+    };
+
+    // Отримуємо поточний масив, додаємо, зберігаємо
+    const products = loadProducts();
+    products.push(newProduct);
+    saveProducts(products);
+
+    // Оновлюємо картки
+    renderProducts();
+
+    // Закриваємо модалку та скидаємо форму
+    closeModal();
+    this.reset();
+};
+
+// ===== Ініціалізація при завантаженні =====
+renderProducts();
+</script>
+</body>
+</html>
