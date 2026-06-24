@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Лабораторна 10 - Кредитна карта</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .card-form {
+            background-color: #92bcae; /* зеленуватий фон форми */
+            width: 400px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+
+        .header {
+            background-color: #d86830; /* оранжевий заголовок */
+            color: white;
+            padding: 15px 20px;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .form-body {
+            padding: 20px;
+            color: #333;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            margin-bottom: 5px;
+        }
+
+        /* Стилі для полів вводу */
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #7a9c90;
+            border-radius: 4px;
+            background-color: #a4cabd;
+            color: #333;
+            box-sizing: border-box;
+        }
+
+        /* Робимо поля в один рядок для дати та CVV */
+        .row {
+            display: flex;
+            gap: 15px;
+        }
+
+        .row .form-group {
+            flex: 1;
+        }
+
+        .date-inputs {
+            display: flex;
+            gap: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card-form">
+        <div class="header">CREDIT CARD DETAILS</div>
+        
+        <div class="form-body">
+            <div class="form-group">
+                <label>Card Number</label>
+                <input type="text" placeholder="1234 5678 9012 3456">
+            </div>
+            
+            <div class="form-group">
+                <label>Name On Card</label>
+                <input type="text" placeholder="Name Surname">
+            </div>
+            
+            <div class="row">
+                <div class="form-group">
+                    <label>Expiry Date</label>
+                    <div class="date-inputs">
+                        <input type="text" placeholder="02" style="width: 50%;">
+                        <input type="text" placeholder="2017" style="width: 50%;">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>CVV / CVN</label>
+                    <input type="text" placeholder="***">
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
