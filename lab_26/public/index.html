@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Тест Express API</title>
+    <style>
+        body { font-family: Arial; padding: 20px; }
+        button { margin: 5px; padding: 8px 16px; }
+        pre { background: #f4f4f4; padding: 10px; border-radius: 4px; }
+        .result { margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <h1>Тестування маршрутів Express</h1>
+
+    <div>
+        <h3>GET /product/list</h3>
+        <button onclick="getProducts()">Отримати список</button>
+    </div>
+
+    <div>
+        <h3>POST /product/create</h3>
+        <button onclick="createProduct()">Створити (тестовий)</button>
+    </div>
+
+    <div>
+        <h3>PUT /product/:id</h3>
+        <button onclick="updateProduct()">Оновити ціну (id=1, ціна=999)</button>
+    </div>
+
+    <div>
+        <h3>DELETE /product/:id</h3>
+        <button onclick="deleteProduct()">Видалити (id=2)</button>
+    </div>
+
+    <hr>
+    <h3>Результат:</h3>
+    <pre id="result" class="result">Натисніть кнопку...</pre>
+
+    <script>
+        const result = document.getElementById('result');
+
+        async function fetchApi(url, options = {}) {
+            try {
+                const res = await fetch(url, options);
+                const data = await res.json();
+                result.textContent = JSON.stringify(data, null, 2);
+            } catch (err) {
+                result.textContent = 'Помилка: ' + err.message;
+            }
+        }
+
+        function getProducts() {
+            fetchApi('/product/list');
+        }
+
+        function createProduct() {
+            const newProduct = {
+                name: 'Samsung Galaxy S21',
+                category: 'smartphones',
+                price: 799
+            };
+            fetchApi('/product/create', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(newProduct)
+            });
+        }
+
+        function updateProduct() {
+            fetchApi('/product/1', {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ price: 999 })
+            });
+        }
+
+        function deleteProduct() {
+            fetchApi('/product/2', {
+                method: 'DELETE'
+            });
+        }
+    </script>
+</body>
+</html>
