@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Lab 20</title>
+</head>
+<body>
+    <h2>Лабораторна №20 – завдання 1, 2, 3</h2>
+    <div id="output"></div>
+
+    <script>
+        function print(text) {
+            document.getElementById('output').innerHTML += text + '<br>';
+        }
+
+        print('--- Завдання 1 ---');
+        function validateCardNumber(n) { return /^[45]\d{15}$/.test(n); }
+        print('4111111111111111 -> ' + validateCardNumber('4111111111111111'));
+        print('5111111111111111 -> ' + validateCardNumber('5111111111111111'));
+        print('6111111111111111 -> ' + validateCardNumber('6111111111111111'));
+
+        print('--- Завдання 2 ---');
+        function checkEmail(email) {
+            const re = /^[A-Za-z0-9][A-Za-z0-9_-]*@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+            if (!re.test(email)) return 'not correct';
+            const local = email.split('@')[0];
+            if (local.startsWith('_') || local.startsWith('-') || local.includes('--')) return 'not correct';
+            return 'correct';
+        }
+        print('my_mail@gmail.com -> ' + checkEmail('my_mail@gmail.com'));
+        print('#my_mail@gmail.com -> ' + checkEmail('#my_mail@gmail.com'));
+        print('my_ma--il@gmail.com -> ' + checkEmail('my_ma--il@gmail.com'));
+
+        print('--- Завдання 3 ---');
+        function isValidURL(url) { return /^(https?|ftp):\/\/.+/.test(url); }
+        print('https://www.example.com -> ' + isValidURL('https://www.example.com'));
+        print('ftp://fileserver/doc -> ' + isValidURL('ftp://fileserver/doc'));
+        print('invalid-url -> ' + isValidURL('invalid-url'));
+        print('http://example.com -> ' + isValidURL('http://example.com'));
+    </script>
+</body>
+</html>
