@@ -1,0 +1,49 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: $font-family;
+  font-size: $font-size-base;
+  color: $dark;
+  line-height: 1.6;
+  background: $white;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 $spacing-lg;
+}
+
+.section-title {
+  text-align: center;
+  @include responsive-font(24px, 40px);
+  font-weight: 700;
+  color: $dark;
+  margin-bottom: $spacing-xl;
+
+  &::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 4px;
+    background: $primary;
+    margin: $spacing-md auto 0;
+    border-radius: 2px;
+  }
+}
+
+.btn {
+  @include button($primary);
+}
+
+.btn--secondary {
+  @include button($secondary);
+}

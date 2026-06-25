@@ -1,0 +1,40 @@
+.header {
+  padding: $spacing-md 0;
+  background: $white;
+  box-shadow: $shadow-sm;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+
+  &__inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__logo {
+    font-size: 24px;
+    font-weight: 700;
+    color: $dark;
+
+    span { color: $primary; }
+  }
+
+  &__nav {
+    display: flex;
+    gap: $spacing-lg;
+
+    a {
+      color: $gray;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s;
+
+      &:hover { color: $primary; }
+    }
+
+    @include tablet {
+      display: none;
+    }
+  }
+}

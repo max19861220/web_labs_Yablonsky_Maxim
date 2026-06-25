@@ -1,0 +1,48 @@
+// Міксін для адаптивного шрифта
+@mixin responsive-font($min-size, $max-size) {
+  font-size: $min-size;
+  @media (min-width: 768px) {
+    font-size: calc(#{$min-size} + (#{$max-size} - #{$min-size}) * ((100vw - 768px) / (1200 - 768)));
+  }
+  @media (min-width: 1200px) {
+    font-size: $max-size;
+  }
+}
+
+// Міксін для кнопок
+@mixin button($bg, $color: white) {
+  display: inline-block;
+  padding: 14px 32px;
+  background: $bg;
+  color: $color;
+  border: none;
+  border-radius: 50px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  &:hover {
+    background: darken($bg, 10%);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba($bg, 0.3);
+  }
+}
+
+// Міксін для медіа-запитів
+@mixin mobile {
+  @media (max-width: #{$breakpoint-mobile}) { @content; }
+}
+@mixin tablet {
+  @media (max-width: #{$breakpoint-tablet}) { @content; }
+}
+@mixin desktop {
+  @media (min-width: #{$breakpoint-desktop}) { @content; }
+}
+
+// Міксін для тіней
+@mixin shadow($level: 'sm') {
+  @if $level == 'sm' { box-shadow: $shadow-sm; }
+  @else if $level == 'md' { box-shadow: $shadow-md; }
+  @else if $level == 'lg' { box-shadow: $shadow-lg; }
+}

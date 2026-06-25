@@ -1,0 +1,31 @@
+.hero {
+  padding: $spacing-xl 0;
+  background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+
+  &__content {
+    max-width: 600px;
+  }
+
+  &__title {
+    @include responsive-font(32px, 56px);
+    font-weight: 700;
+    color: $dark;
+    margin-bottom: $spacing-md;
+
+    span { color: $primary; }
+  }
+
+  &__text {
+    @include responsive-font(16px, 20px);
+    color: $gray;
+    margin-bottom: $spacing-lg;
+  }
+
+  @include tablet {
+    text-align: center;
+    &__content { max-width: 100%; }
+  }
+}
